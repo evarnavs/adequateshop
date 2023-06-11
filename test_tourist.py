@@ -42,22 +42,29 @@ def test_login_successful(login_data):
 def test_login_incorrect_credentials():
     url = base_url + "/api/AuthAccount/Login"
     payload = {
-        "username": "incorrect_username",
+        "email": "incorrect_username",
         "password": "incorrect_password"
     }
     response = requests.post(url, json=payload)
-    assert response.status_code == 401
+    assert response.status_code == 200
+    assert response.json()["code"] == 1
+    assert response.json()["message"] == "invalid username or password"
+    assert response.json()["data"] is None
 
 
 @allure.title("Login - Empty Credentials")
 def test_login_empty_credentials():
     url = base_url + "/api/AuthAccount/Login"
     payload = {
-        "username": "",
+        "email": "",
         "password": ""
     }
     response = requests.post(url, json=payload)
     assert response.status_code == 400
+    response_json = response.json()
+    assert response_json["Message"] == "The request is invalid."
+    assert response_json["ModelState"]["log.email"] == ["field is required"]
+    assert response_json["ModelState"]["log.password"] == ["field is required"]
 
 
 @allure.title("Delete Tourist - Successful")

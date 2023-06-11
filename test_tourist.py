@@ -4,19 +4,23 @@ import allure
 
 base_url = "http://restapi.adequateshop.com"
 
+
 @pytest.fixture
 def login_data():
     return {
-        "username": "your_username",
-        "password": "your_password"
+        "email": "fleet@example.com",
+        "password": "12345"
     }
+
 
 @pytest.fixture
 def create_tourist():
     create_url = base_url + "/api/Tourist"
     create_payload = {
-        "name": "John Doe",
-        "email": "john.doe@example.com"
+        "tourist_name": "string",
+        "tourist_email": "string123",
+        "tourist_location": "string",
+        "createdat": "2023-06-11T15:59:58.024Z"
     }
     response = requests.post(create_url, json=create_payload)
     tourist_id = response.json()["id"]
@@ -25,12 +29,14 @@ def create_tourist():
     delete_url = base_url + f"/api/Tourist/{tourist_id}"
     requests.delete(delete_url)
 
+
 @allure.title("Login - Successful")
 def test_login_successful(login_data):
     url = base_url + "/api/AuthAccount/Login"
     response = requests.post(url, json=login_data)
     assert response.status_code == 200
     # Add additional assertions for the response body as needed
+
 
 @allure.title("Login - Incorrect Credentials")
 def test_login_incorrect_credentials():
@@ -42,6 +48,7 @@ def test_login_incorrect_credentials():
     response = requests.post(url, json=payload)
     assert response.status_code == 401
 
+
 @allure.title("Login - Empty Credentials")
 def test_login_empty_credentials():
     url = base_url + "/api/AuthAccount/Login"
@@ -52,12 +59,14 @@ def test_login_empty_credentials():
     response = requests.post(url, json=payload)
     assert response.status_code == 400
 
+
 @allure.title("Delete Tourist - Successful")
 def test_delete_tourist_successful(create_tourist):
     tourist_id = create_tourist
     delete_url = base_url + f"/api/Tourist/{tourist_id}"
     response = requests.delete(delete_url)
     assert response.status_code == 200
+
 
 @allure.title("Delete Tourist - Deleting Same Tourist Twice")
 def test_delete_tourist_twice(create_tourist):
@@ -70,6 +79,7 @@ def test_delete_tourist_twice(create_tourist):
     response = requests.delete(delete_url)
     assert response.status_code == 404  # Assuming 404 is returned for non-existing tourist
 
+
 @allure.title("Delete Tourist - Non-existing Tourist")
 def test_delete_non_existing_tourist():
     tourist_id = "non_existing_id"
@@ -77,7 +87,3 @@ def test_delete_non_existing_tourist():
     response = requests.delete(delete_url)
     assert response.status_code == 404
 
-
-
-if __name__ == '__main__':
-    pytest.main([__file__, '--alluredir', 'allure-results'])

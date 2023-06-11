@@ -17,13 +17,14 @@ def login_data():
 def create_tourist():
     create_url = base_url + "/api/Tourist"
     create_payload = {
-        "tourist_name": "string",
-        "tourist_email": "string123",
+        "tourist_name": "stringqw",
+        "tourist_email": "string12341234",
         "tourist_location": "string",
         "createdat": "2023-06-11T15:59:58.024Z"
     }
     response = requests.post(create_url, json=create_payload)
     tourist_id = response.json()["id"]
+    print(tourist_id)
     yield tourist_id
     # Clean up the created tourist
     delete_url = base_url + f"/api/Tourist/{tourist_id}"
@@ -84,7 +85,7 @@ def test_delete_tourist_twice(create_tourist):
     assert response.status_code == 200
     # Try to delete the same tourist again
     response = requests.delete(delete_url)
-    assert response.status_code == 404  # Assuming 404 is returned for non-existing tourist
+    assert response.status_code == 404  # for non-existing tourist
 
 
 @allure.title("Delete Tourist - Non-existing Tourist")
@@ -93,4 +94,3 @@ def test_delete_non_existing_tourist():
     delete_url = base_url + f"/api/Tourist/{tourist_id}"
     response = requests.delete(delete_url)
     assert response.status_code == 404
-

@@ -1,0 +1,7 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Mon Jun 12 11:55:48 GMT 2023","Mon Jun 12 11:55:49 GMT 2023","480","","test_tourist","","","","Login - Empty Credentials",""
+"passed","Mon Jun 12 11:55:48 GMT 2023","Mon Jun 12 11:55:48 GMT 2023","517","","test_tourist","","","","Login - Incorrect Credentials",""
+"failed","Mon Jun 12 11:55:51 GMT 2023","Mon Jun 12 11:55:51 GMT 2023","492","","test_tourist","","","","Delete Tourist - Deleting Same Tourist Twice",""
+"passed","Mon Jun 12 11:55:47 GMT 2023","Mon Jun 12 11:55:48 GMT 2023","544","","test_tourist","","","","Login - Successful",""
+"failed","Mon Jun 12 11:55:52 GMT 2023","Mon Jun 12 11:55:52 GMT 2023","479","","test_tourist","","","","Delete Tourist - Non-existing Tourist",""
+"failed","Mon Jun 12 11:55:49 GMT 2023","Mon Jun 12 11:55:50 GMT 2023","483","","test_tourist","","","","Delete Tourist - Successful",""

@@ -4,6 +4,7 @@ import allure
 from datetime import datetime
 
 base_url = "http://restapi.adequateshop.com"
+rid = datetime.now().strftime("%Y%m%d%H%M%S")  # random id
 
 
 @pytest.fixture
@@ -16,7 +17,6 @@ def login_data():
 
 @pytest.fixture
 def create_tourist():
-    rid = datetime.now().strftime("%Y%m%d%H%M%S")  # random id
     create_url = base_url + "/api/Tourist"
     create_payload = {
         "tourist_name": f"user{rid}",
@@ -69,29 +69,24 @@ def test_login_empty_credentials():
     assert response_json["ModelState"]["log.password"] == ["field is required"]
 
 
-@allure.title("Delete Tourist - Successful")
-def test_delete_tourist_successful(create_tourist):
+@allure.title("Get Tourist by ID - Successful")
+def test_get_tourist_successful(create_tourist):
     tourist_id = create_tourist
-    delete_url = base_url + f"/api/Tourist/{tourist_id}"
-    response = requests.delete(delete_url)
+    get_url = base_url + f"/api/Tourist/{tourist_id}"
+    with allure.step(f"Get tourist with ID: {tourist_id}"):
+        response = requests.get(get_url)
     assert response.status_code == 200
+    assert response.json()["id"] == tourist_id
+    assert response.json()["tourist_name"] == f"user{rid}"
+    assert response.json()["tourist_email"] == f"email{rid}@email.com"
+    assert response.json()["tourist_location"] == "neverland"
 
 
-@allure.title("Delete Tourist - Deleting Same Tourist Twice")
-def test_delete_tourist_twice(create_tourist):
-    tourist_id = create_tourist
-    delete_url = base_url + f"/api/Tourist/{tourist_id}"
-    # Delete the tourist for the first time
-    response = requests.delete(delete_url)
-    assert response.status_code == 200
-    # Try to delete the same tourist again
-    response = requests.delete(delete_url)
-    assert response.status_code == 404  # for non-existing tourist
-
-
-@allure.title("Delete Tourist - Non-existing Tourist")
-def test_delete_non_existing_tourist():
+@allure.title("Get Tourist by ID - Tourist Not Found")
+def test_get_tourist_not_found():
     tourist_id = "non_existing_id"
-    delete_url = base_url + f"/api/Tourist/{tourist_id}"
-    response = requests.delete(delete_url)
-    assert response.status_code == 404
+    get_url = base_url + f"/api/Tourist/{tourist_id}"
+    with allure.step(f"Get tourist with ID: {tourist_id}"):
+        response = requests.get(get_url)
+    assert response.status_code == 400
+    assert response.json()["Message"] == "The request is invalid."

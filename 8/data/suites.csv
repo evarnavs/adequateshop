@@ -1,0 +1,6 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Mon Jun 12 17:58:02 GMT 2023","Mon Jun 12 17:58:02 GMT 2023","472","","test_tourist","","","","Get Tourist by ID - Tourist Not Found",""
+"passed","Mon Jun 12 17:58:01 GMT 2023","Mon Jun 12 17:58:02 GMT 2023","502","","test_tourist","","","","Get Tourist by ID - Successful",""
+"passed","Mon Jun 12 17:57:59 GMT 2023","Mon Jun 12 17:57:59 GMT 2023","539","","test_tourist","","","","Login - Successful",""
+"passed","Mon Jun 12 17:58:00 GMT 2023","Mon Jun 12 17:58:01 GMT 2023","520","","test_tourist","","","","Login - Empty Credentials",""
+"passed","Mon Jun 12 17:57:59 GMT 2023","Mon Jun 12 17:58:00 GMT 2023","522","","test_tourist","","","","Login - Incorrect Credentials",""

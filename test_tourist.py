@@ -1,14 +1,16 @@
 import requests
 import pytest
 import allure
+from datetime import datetime
 
 base_url = "http://restapi.adequateshop.com"
+rid = datetime.now().strftime("%Y%m%d%H%M%S")  # random id
 
 
 @pytest.fixture
 def login_data():
     return {
-        "email": "fleet@example.com",
+        "email": f"fleet{rid}@example.com",
         "password": "12345"
     }
 
@@ -17,14 +19,13 @@ def login_data():
 def create_tourist():
     create_url = base_url + "/api/Tourist"
     create_payload = {
-        "tourist_name": "stringqw",
-        "tourist_email": "string12341234",
-        "tourist_location": "string",
+        "tourist_name": f"user{rid}",
+        "tourist_email": f"email{rid}@email.com",
+        "tourist_location": "neverland",
         "createdat": "2023-06-11T15:59:58.024Z"
     }
     response = requests.post(create_url, json=create_payload)
     tourist_id = response.json()["id"]
-    print(tourist_id)
     yield tourist_id
     # Clean up the created tourist
     delete_url = base_url + f"/api/Tourist/{tourist_id}"

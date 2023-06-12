@@ -4,19 +4,19 @@ import allure
 from datetime import datetime
 
 base_url = "http://restapi.adequateshop.com"
-rid = datetime.now().strftime("%Y%m%d%H%M%S")  # random id
 
 
 @pytest.fixture
 def login_data():
     return {
-        "email": f"fleet{rid}@example.com",
+        "email": "fleet@example.com",
         "password": "12345"
     }
 
 
 @pytest.fixture
 def create_tourist():
+    rid = datetime.now().strftime("%Y%m%d%H%M%S")  # random id
     create_url = base_url + "/api/Tourist"
     create_payload = {
         "tourist_name": f"user{rid}",
